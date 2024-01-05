@@ -22,6 +22,10 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection){
+    if(playerSelection === computerSelection){
+        return "It's a TIE! Repeat this round!"
+    }
+
     switch (playerSelection) {
         case "rock":
             if(computerSelection === "paper"){
@@ -32,7 +36,6 @@ function playRound(playerSelection, computerSelection){
                 playerWins++;
                 return "You win! Rock beats scissors";
             }
-                
             break;
 
         case "paper":
@@ -60,43 +63,73 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
-function game() {
-    let numberOfRounds = 1;
-    
-    // play 5 rounds
-    while(numberOfRounds <= 5){
-        console.log("ROUND " + numberOfRounds );
-
-        let playerSelection = prompt("Enter your choice (rock, paper, scissors): ");
-        playerSelection = playerSelection.toLowerCase();
-        
-        while(!validateUserInput(playerSelection)){
-            playerSelection = prompt("INVALID CHOICE (choose between rock, paper, scissors): ");
-            playerSelection = playerSelection.toLowerCase();
-        }
-
-        console.log("You select: " + playerSelection);
-        
-        let computerSelection = getComputerChoice();
-        console.log("Computer Selects: " + computerSelection);
-        
-        if(playerSelection == computerSelection){
-            console.log("It's a tie! Play this round again!");
-            continue; // back to start of this round
-        }
-
-        console.log(playRound(playerSelection, computerSelection));
-        numberOfRounds++;
-        console.log("Your wins: " + playerWins);
-    }
-
-    if(playerWins > computerWins) console.log("CONGRATULATIONS! YOU ARE THE OVERALL WINNER!");
-    else console.log("BETTER LUCK NEXT TIME! COMPUTER WINS!");
-}
-
 let playerWins = 0;
 let computerWins = 0;
-game();
+
+const body = document.querySelector('body');
+
+const title = document.createElement('h2');
+title.textContent = 'Rock Paper Scissors';
+
+body.appendChild(title);
+
+const rockBtn = document.createElement('button');
+const paperBtn = document.createElement('button');
+const scissorsBtn = document.createElement('button');
+
+rockBtn.classList.add('rock');
+paperBtn.classList.add('paper');
+scissorsBtn.classList.add('scissors');
+
+rockBtn.textContent = 'Rock';
+paperBtn.textContent = 'Paper';
+scissorsBtn.textContent = 'Scissors';
+
+body.appendChild(rockBtn);
+body.appendChild(paperBtn);
+body.appendChild(scissorsBtn);
+
+const buttons = document.querySelectorAll('button');
+
+const player = document.createElement('div');
+const computer = document.createElement('div');
+const roundResult = document.createElement('div');
+const standing = document.createElement('div');
+const winner = document.createElement('h3');
+
+// iterate through each the buttons/choices
+buttons.forEach((button) => {
+    // and for each one, add a 'click' event listener
+    button.addEventListener('click', () => {
+        let computerSelection = getComputerChoice();
+        let playerSelection = button.className;
+        
+        console.log("You selected: " + playerSelection);
+        console.log("Computer selected: " + computerSelection);
+
+        player.textContent = "You selected: " + playerSelection;
+        computer.textContent = "Computer selected: " + computerSelection;
+        body.appendChild(player);
+        body.appendChild(computer);
+
+        roundResult.textContent = playRound(playerSelection, computerSelection);
+        body.appendChild(roundResult);
+
+        standing.textContent = "Your Wins: " + playerWins + "     Computer Wins: " + computerWins;
+        body.appendChild(standing);
+
+        if(playerWins === 5 || computerWins === 5){
+            if(playerWins === 5){
+                winner.textContent = 'Congratulations! You win!';
+            } else {
+                winner.textContent = "Better luck next time! Computer wins!"
+            }
+            body.appendChild(winner);
+            playerWins = 0;
+            computerWins = 0;
+        }
+    });
+});
 
 
 
