@@ -5,3 +5,6 @@
 #### The Project Requirements can be found here:
 #### https://www.theodinproject.com/lessons/foundations-rock-paper-scissors
 #### https://www.theodinproject.com/lessons/foundations-revisiting-rock-paper-scissors
+
+### The site is live at:
+#### https://janpetallo.github.io/odin-rock-paper-scissors/
